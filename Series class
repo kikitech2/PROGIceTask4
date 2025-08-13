@@ -1,0 +1,157 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Series implements iSeries {
+    ArrayList<SeriesModel> seriesList;
+    private Scanner scanner;
+
+    public Series() {
+        seriesList = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    // This method captures series whenever a user inputs them as well as validating the correct age to be typed non-numerically.
+    @Override
+    public void CaptureSeries() {
+        System.out.println("CAPTURE A NEW SERIES");
+        System.out.println("*************************************************");
+        System.out.print("Enter the series id: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter the series name: ");
+        String name = scanner.nextLine();
+        String age = "";
+        boolean isValidAge = false;
+        while (!isValidAge) {
+                System.out.print("Enter the series age restriction: ");
+                String ageInput = scanner.nextLine();
+                try{
+                int ageInt = Integer.parseInt(ageInput);
+                if (ageInt >= 2 && ageInt <= 18) {
+                    age = ageInput;
+                    isValidAge = true;
+                } else {
+                    System.out.println("You have entered an incorrect Series age!!!");
+                    System.out.println("Please re-enter the series age >>");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("You have entered an incorrect Series age!!!");
+                System.out.println("Please re-enter the series age >>");
+            }
+        }
+
+        System.out.print("Enter the number of episodes for " + name + ":");
+        String episodes = scanner.nextLine();
+
+
+SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
+
+        seriesList.add(newSeries);
+        System.out.println("Series processed successfully!!!");
+    }
+//This method searches for a specific series that has its own series id.
+    @Override
+    public void SearchSeries() {
+        System.out.println("Enter the series id to search: ");
+        System.out.println("------------------------------------------");
+        String searchId = scanner.nextLine();
+
+        boolean found = false;
+        for (SeriesModel series : seriesList) {
+            if (series.getSeriesId().equals(searchId)) {
+                System.out.println("Series found!");
+                System.out.println("SERIES ID: " + series.getSeriesId());
+                System.out.println("SERIES NAME: " + series.getSeriesName());
+                System.out.println("SERIES AGE RESTRICTION: " + series.getSeriesAge());
+                System.out.println("SERIES NUMBER OF EPISODES: " + series.getSeriesNumberOfEpisodes());
+                System.out.println("------------------------------------------");
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("------------------------------------------");
+            System.out.println("Series with Series Id: " + searchId + " was not found!");
+            System.out.println("------------------------------------------");
+        }
+    }
+//This method identifies a series that has been renamed or updated.
+    @Override
+    public void UpdateSeries() {
+        System.out.print("Enter the series id to update: ");
+        String updateId = scanner.nextLine();
+
+        for (SeriesModel series : seriesList) {
+            if (series.getSeriesId().equals(updateId)) {
+                System.out.print("Enter the new series name: ");
+                String newName = scanner.nextLine();
+                series.setSeriesName(newName);
+                System.out.print("Enter the new age restriction: ");
+                String newAge = scanner.nextLine();
+                series.setSeriesAge(newAge);
+                System.out.print("Enter the new number of episodes: ");
+                String newEpisodes = scanner.nextLine();
+                series.setSeriesNumberOfEpisodes(newEpisodes);
+                System.out.println("Series updated successfully!");
+                return;
+            }
+        }
+        System.out.println("Series with Series Id: " + updateId + " not found!");
+    }
+//This method deletes s series when appropriate.
+    @Override
+    public void DeleteSeries() {
+        System.out.print("Enter the series id to delete: ");
+        String deleteId = scanner.nextLine();
+
+        SeriesModel seriesToRemove = null;
+        for (SeriesModel series : seriesList) {
+            if (series.getSeriesId().equals(deleteId)) {
+                seriesToRemove = series;
+                break;
+            }
+        }
+
+        if (seriesToRemove != null) {
+            System.out.print("Are you sure you want to delete series " + deleteId + " from the system? Yes (y) to delete. ");
+            String confirmation = scanner.nextLine();
+            if (confirmation.equalsIgnoreCase("y")) {
+                seriesList.remove(seriesToRemove);
+                System.out.println("------------------------------------------");
+                System.out.println("Series with Series Id: " + deleteId + " WAS deleted!");
+                System.out.println("------------------------------------------");
+            } else {
+                System.out.println("Deletion canceled.");
+            }
+        } else {
+            System.out.println("Series with Series Id: " + deleteId + " not found!");
+        }
+    }
+//This method records the history of varies series that has been used.
+    @Override
+    public void SeriesReport() {
+        System.out.println("Series Report");
+        System.out.println("-------------");
+        if (seriesList.isEmpty()) {
+            System.out.println("No series data found.");
+        } else {
+            int seriesNumber = 1;
+            for (SeriesModel series : seriesList) {
+                System.out.println("------------------------------------------");
+                System.out.println("Series " + seriesNumber);
+                System.out.println("------------------------------------------");
+                System.out.println("SERIES ID: " + series.getSeriesId());
+                System.out.println("SERIES NAME: " + series.getSeriesName());
+                System.out.println("SERIES AGE RESTRICTION: " + series.getSeriesAge());
+                System.out.println("SERIES NUMBER OF EPISODES: " + series.getSeriesNumberOfEpisodes());
+
+                seriesNumber++;
+            }
+        }
+    }
+    //This method is exits the Series Application.
+    @Override
+    public void ExitSeriesApplication() {
+        System.out.println("Exiting application. Goodbye!");
+        System.exit(0);
+    }
+}
