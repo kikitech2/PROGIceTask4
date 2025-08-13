@@ -1,1 +1,34 @@
+public class ProcessRecipe extends Recipes {
+
+    public ProcessRecipe(String[] ingredients, double[] prices, int arrivalTime, String studentNo) {
+        super(ingredients, prices, arrivalTime, studentNo);
+    }
+    @Override
+    public void printRecipeDetails() {
+        System.out.println("************************************");
+        System.out.println("INGREDIENTS:");
+
+        // A loop to iterate through both ingredients and prices.
+        for (int i = 0; i < ingredients.length; i++) {
+            System.out.println("- " + ingredients[i].trim() + ": R" + prices[i]);
+        }
+
+        System.out.println("ARRIVAL TIME: " + getArrivalTime());
+        // Using getStudentNo() which now returns a String
+        System.out.println("STUDENT NUMBER: " + getStudentNo());
+        System.out.println("************************************");
+    }
+
+    // This method overrides the concrete method from the Recipes class
+    @Override
+    public void findIngredient(String ingredientToFind) { // Corrected method signature
+        for (int i = 0; i < ingredients.length; i++) {
+            if (ingredients[i].trim().equalsIgnoreCase(ingredientToFind)) {
+                System.out.println("Found it! " + ingredients[i].trim() + " costs R" + prices[i]);
+                return;
+            }
+        }
+        System.out.println("Sorry, " + ingredientToFind + " was not found in the recipe.");
+    }
+}
 
