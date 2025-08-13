@@ -1,0 +1,8 @@
+public interface iSeries {
+    void CaptureSeries();
+    void SearchSeries();
+    void UpdateSeries();
+    void DeleteSeries();
+    void SeriesReport();
+    void ExitSeriesApplication();
+}
