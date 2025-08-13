@@ -1,0 +1,112 @@
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+
+class SeriesTest {
+
+    private Series seriesApp;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final InputStream originalIn = System.in;
+    private final PrintStream originalOut = System.out;
+
+    private void setInput(String input) {
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+    }
+
+    private String getOutput() {
+        return outContent.toString();
+    }
+    @BeforeEach
+    void setUp() {
+        seriesApp = new Series();
+        seriesApp.seriesList = new ArrayList<>();
+        System.setOut(new PrintStream(outContent));
+    }
+    @AfterEach
+    void tearDown() {
+        System.setIn(originalIn);
+        System.setOut(originalOut);
+    }
+
+    //This test will determine that the correct series data has been returned.
+    @Test
+    void TestSearchSeries() {
+        seriesApp.seriesList.add(new SeriesModel("101", "Extreme Sports", "12", "10"));
+        setInput("101");
+        seriesApp.SearchSeries();
+        String output = getOutput();
+        assertTrue(output.contains("Series found!"));
+        assertTrue(output.contains("SERIES NAME: Extreme Sports"));
+        assertTrue(output.contains("SERIES ID: 101"));
+    }
+
+    //This test will determine that no series was found.
+    @Test
+    void TestSearchSeries_SeriesNotFound() {
+        setInput("999");
+        seriesApp.SearchSeries();
+        String output = getOutput();
+        assertTrue(output.contains("Series with Series Id: 999 was not found!"));
+    }
+
+    // This test will determine that a series has been successfully updated.
+    @Test
+    void TestUpdateSeries() {
+        seriesApp.seriesList.add(new SeriesModel("101", "Old Name", "10", "5"));
+        setInput("101 New Name 16 15 ");
+        seriesApp.UpdateSeries();
+        SeriesModel updatedSeries = seriesApp.seriesList.get(0);
+        assertEquals("New Name", updatedSeries.getSeriesName());
+        assertEquals("16", updatedSeries.getSeriesAge());
+        assertEquals("15", updatedSeries.getSeriesNumberOfEpisodes());
+        assertTrue(getOutput().contains("Series updated successfully!"));
+    }
+
+    // This test will determine that the series has been successfully deleted.
+    @Test
+    void TestDeleteSeries() {
+        seriesApp.seriesList.add(new SeriesModel("101", "Extreme Sports", "12", "10"));
+        setInput("101\ny\n");
+        seriesApp.DeleteSeries();
+        assertEquals(0, seriesApp.seriesList.size());
+        assertTrue(getOutput().contains("Series with Series Id: 101 WAS deleted!"));
+    }
+
+    // This test will determine that the series has not been deleted.
+    @Test
+    void TestDeleteSeries_SeriesNotFound() {
+        seriesApp.seriesList.add(new SeriesModel("101", "Extreme Sports", "12", "10"));
+        setInput("999\n");
+        seriesApp.DeleteSeries();
+        assertEquals(1, seriesApp.seriesList.size());
+        assertTrue(getOutput().contains("Series with Series Id: 999 not found!"));
+    }
+
+    // This test will determine that the series age is valid.
+    @Test
+    void TestSeriesAgeRestriction_AgeValid() {
+
+        String simulatedInput = "S001\nTest Series\n12\n10\n";
+        seriesApp.CaptureSeries();
+        SeriesModel newSeries = seriesApp.seriesList.get(0);
+        assertEquals("12", newSeries.getSeriesAge());
+        assertFalse(getOutput().contains("incorrect Series age"));
+    }
+
+    // This test will determine that the series age is invalid.
+    @Test
+    void TestSeriesAgeRestriction_SeriesAgeInvalid() {
+        String simulatedInput = "S002\nTest Invalid Age\n32\n12\n10\n";
+        seriesApp.CaptureSeries();
+        assertTrue(getOutput().contains("You have entered an incorrect Series age!!!"));
+        SeriesModel newSeries = seriesApp.seriesList.get(0);
+        assertEquals("12", newSeries.getSeriesAge());
+    }
+}
