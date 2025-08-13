@@ -1,1 +1,35 @@
+public abstract class Recipes implements iRecipes {
+    protected String[] ingredients;
+    protected double[] prices;
+    protected int arrivalTime;
+    protected String studentNo;
+
+    public Recipes(String[] ingredients, double[] prices, int arrivalTime, String studentNo) {
+        this.ingredients = ingredients;
+        this.prices = prices;
+        this.arrivalTime = arrivalTime;
+        this.studentNo = studentNo;
+    }
+
+    public String[] getIngredients() {
+        return ingredients;
+    }
+
+    public double[] getPrices() {
+        return prices;
+    }
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    // Getter method returns a String
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+
+        }
+
+
 
