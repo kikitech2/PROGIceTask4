@@ -1,1 +1,36 @@
 
+import java.util.Scanner;
+
+public class BakingApplication {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] ingredients = {"flour", "eggs", "butter", "oil", "sugar"};
+        double[] prices = {4.0, 6.0, 10.0, 17.0, 18.0};
+
+        System.out.println("WELCOME TO DAVIDS BAKERY SHOP");
+        System.out.println("**********************************************");
+
+        System.out.print("Enter your arrival hour (0-23): ");
+        int hour = scanner.nextInt();
+
+        System.out.print("Enter your arrival minute (0-59): ");
+        int minute = scanner.nextInt();
+
+        int time = hour * 100 + minute;
+
+        scanner.nextLine();
+
+        System.out.print("Enter your Student number: ");
+        String studentNo = scanner.nextLine();
+
+        ProcessRecipe recipe = new ProcessRecipe(ingredients, prices, time, studentNo);
+        recipe.printRecipeDetails();
+
+        System.out.println("**********************************************");
+        System.out.print("Enter an ingredient you want to find: ");
+        String ingredientToFind = scanner.nextLine();
+        recipe.findIngredient(ingredientToFind);
+        System.out.println("**********************************************");
+    }
+}
