@@ -1,5 +1,0 @@
-public interface iRecipes {
-    void printRecipeDetails();
-    void findIngredient(String ingredient);
-}
-
