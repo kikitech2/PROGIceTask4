@@ -1,0 +1,37 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+// The unitTest uses the Junit 5 to test the functionality of the code.
+    public class UnitTest {
+
+        // The Customization class tests the make, model and color of the car from the getters methods.
+        @Test
+        void testConstructorAndGetters() {
+            String make = "Honda";
+            String model = "Civic";
+            String color = "Blue";
+
+            // Creates a new instance of the Customization class
+            Customization car = new Customization(make, model, color);
+
+            // Values were correctly inserted.
+            assertEquals(make, car.getMake(), "Make should be correctly initialized.");
+            assertEquals(model, car.getModel(), "Model should be correctly initialized.");
+            assertEquals(color, car.getColor(), "Color should be correctly initialized.");
+        }
+
+        // Tests that the report is correctly formatted according to the users options.
+        @Test
+        void testGenerateReport() {
+            // Creates a car instance with specific details.
+            Customization car = new Customization("Toyota", "Camry", "Red");
+
+            // Report summary displays accurately.
+            String expectedReport = "Car Make: Toyota Camry, Color: Red";
+
+            // This method and assert to let the output match the expected strings.
+            assertEquals(expectedReport, car.generateReport(), "The generated report string should match the expected format.");
+        }
+    }
+
+
+
