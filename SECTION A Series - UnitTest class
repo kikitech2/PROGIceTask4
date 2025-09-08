@@ -16,6 +16,9 @@ class SeriesTest {
     private final InputStream originalIn = System.in;
     private final PrintStream originalOut = System.out;
 
+    //The ByteArrayInputStream class of java.io package contains all buffers containing bytes to be read in an input stream. I used geeksforgeeks to help download the package.
+    // I also used chatgpt to help download the json/ jUnit package when doing the unit test.
+
     private void setInput(String input) {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
     }
@@ -35,7 +38,7 @@ class SeriesTest {
         System.setOut(originalOut);
     }
 
-    //This test will determine that the correct series data has been returned.
+    //This test will determine that the correct series data has been returned. I used examples from the rubric to help insert the variable samples.
     @Test
     void TestSearchSeries() {
         seriesApp.seriesList.add(new SeriesModel("101", "Extreme Sports", "12", "10"));
@@ -110,3 +113,4 @@ class SeriesTest {
         assertEquals("12", newSeries.getSeriesAge());
     }
 }
+
