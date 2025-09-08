@@ -10,22 +10,28 @@ public class Series implements iSeries {
         scanner = new Scanner(System.in);
     }
 
-    // This method captures series whenever a user inputs them as well as validating the correct age to be typed non-numerically.
+    // This method captures a series whenever a user inputs them as well as validating the correct age to be typed non-numerically.
     @Override
     public void CaptureSeries() {
         System.out.println("CAPTURE A NEW SERIES");
         System.out.println("*************************************************");
+
         System.out.print("Enter the series id: ");
         String id = scanner.nextLine();
+
         System.out.print("Enter the series name: ");
         String name = scanner.nextLine();
-        String age = "";
+
+        // A single quote for when a user inputs their age.
+        String age = "/'";
         boolean isValidAge = false;
         while (!isValidAge) {
+
                 System.out.print("Enter the series age restriction: ");
                 String ageInput = scanner.nextLine();
-                try{
-                int ageInt = Integer.parseInt(ageInput);
+
+                try{ // To test the valid age .
+                int ageInt = Integer.parseInt(ageInput); // Parses an argument and returns the integer.
                 if (ageInt >= 2 && ageInt <= 18) {
                     age = ageInput;
                     isValidAge = true;
@@ -33,28 +39,26 @@ public class Series implements iSeries {
                     System.out.println("You have entered an incorrect Series age!!!");
                     System.out.println("Please re-enter the series age >>");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) { // Will execute in case the user inputs an incorrect age.
                 System.out.println("You have entered an incorrect Series age!!!");
                 System.out.println("Please re-enter the series age >>");
             }
         }
-
         System.out.print("Enter the number of episodes for " + name + ":");
         String episodes = scanner.nextLine();
-
 
 SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
 
         seriesList.add(newSeries);
         System.out.println("Series processed successfully!!!");
     }
-//This method searches for a specific series that has its own series id.
+//This method searches for a specific series that has its own series id, name, age, and the recorded number of episodes.
     @Override
     public void SearchSeries() {
         System.out.println("Enter the series id to search: ");
         System.out.println("------------------------------------------");
-        String searchId = scanner.nextLine();
 
+        String searchId = scanner.nextLine();
         boolean found = false;
         for (SeriesModel series : seriesList) {
             if (series.getSeriesId().equals(searchId)) {
@@ -82,6 +86,7 @@ SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
 
         for (SeriesModel series : seriesList) {
             if (series.getSeriesId().equals(updateId)) {
+
                 System.out.print("Enter the new series name: ");
                 String newName = scanner.nextLine();
                 series.setSeriesName(newName);
@@ -102,7 +107,7 @@ SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
     public void DeleteSeries() {
         System.out.print("Enter the series id to delete: ");
         String deleteId = scanner.nextLine();
-
+//Gets the seriesId and moves it to the delete section.
         SeriesModel seriesToRemove = null;
         for (SeriesModel series : seriesList) {
             if (series.getSeriesId().equals(deleteId)) {
@@ -110,7 +115,7 @@ SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
                 break;
             }
         }
-
+//If the user selects a series to be removed it will return a message asking the user to be sure of their choice and to reply with either yes or no.
         if (seriesToRemove != null) {
             System.out.print("Are you sure you want to delete series " + deleteId + " from the system? Yes (y) to delete. ");
             String confirmation = scanner.nextLine();
@@ -120,17 +125,20 @@ SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
                 System.out.println("Series with Series Id: " + deleteId + " WAS deleted!");
                 System.out.println("------------------------------------------");
             } else {
+                // This message displays that the seriesId will not be deleted.
                 System.out.println("Deletion canceled.");
             }
         } else {
+            //This message displays that if the user chose to delete the series it will show that it no longer exits.
             System.out.println("Series with Series Id: " + deleteId + " not found!");
         }
     }
-//This method records the history of varies series that has been used.
+//This method records the history of various series that has been used.
     @Override
     public void SeriesReport() {
         System.out.println("Series Report");
-        System.out.println("-------------");
+        System.out.println("-----------------------------");
+        // If the series list is empty it will display to the user that no series data has been found else ot would display a full series report.
         if (seriesList.isEmpty()) {
             System.out.println("No series data found.");
         } else {
@@ -143,12 +151,11 @@ SeriesModel newSeries = new SeriesModel(id,name,age,episodes);
                 System.out.println("SERIES NAME: " + series.getSeriesName());
                 System.out.println("SERIES AGE RESTRICTION: " + series.getSeriesAge());
                 System.out.println("SERIES NUMBER OF EPISODES: " + series.getSeriesNumberOfEpisodes());
-
                 seriesNumber++;
             }
         }
     }
-    //This method is exits the Series Application.
+    //This method exits the Series Application.
     @Override
     public void ExitSeriesApplication() {
         System.out.println("Exiting application. Goodbye!");
