@@ -1,9 +1,10 @@
 public class SeriesModel {
-    // Instance variables to hold the series data
+    // Variables declared and assigned.
     public String seriesId;
     public String seriesName;
     public String seriesAge;
     public String seriesNumberOfEpisodes;
+
 
     // Created constructor to initialize variables in fields.
     public SeriesModel(String seriesId, String seriesName, String seriesAge, String seriesNumberOfEpisodes) {
@@ -12,7 +13,7 @@ public class SeriesModel {
         this.seriesAge = seriesAge;
         this.seriesNumberOfEpisodes = seriesNumberOfEpisodes;
     }
-
+// Getters and setters of variables.
     public String getSeriesId() {
         return seriesId;
     }
@@ -34,6 +35,7 @@ public class SeriesModel {
     }
 
     public String getSeriesNumberOfEpisodes() {
+
         return seriesNumberOfEpisodes;
     }
 
