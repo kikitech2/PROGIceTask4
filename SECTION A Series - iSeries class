@@ -1,4 +1,5 @@
 public interface iSeries {
+    // Method bodies for each function in the Series Application.
     void CaptureSeries();
     void SearchSeries();
     void UpdateSeries();
