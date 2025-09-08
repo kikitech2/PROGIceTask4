@@ -1,35 +1,36 @@
-public abstract class Recipes implements iRecipes {
-    protected String[] ingredients;
-    protected double[] prices;
-    protected int arrivalTime;
-    protected String studentNo;
+public class Customization {
+// Variables declared for the design and customization of the Car.
+    private String make;
+    private String model;
+    private String color;
 
-    public Recipes(String[] ingredients, double[] prices, int arrivalTime, String studentNo) {
-        this.ingredients = ingredients;
-        this.prices = prices;
-        this.arrivalTime = arrivalTime;
-        this.studentNo = studentNo;
+//Constructor made for the customization of the variables that have been declared.
+    public Customization(String make, String model, String color) {
+        this.make = make;
+        this.model = model;
+        this.color = color;
+    }
+    //Getters of the variables attributes.
+    public String getMake() {
+        return make;
     }
 
-    public String[] getIngredients() {
-        return ingredients;
+    public String getModel() {
+        return model;
     }
 
-    public double[] getPrices() {
-        return prices;
+    public String getColor() {
+        return color;
     }
-
-    public int getArrivalTime() {
-        return arrivalTime;
+    // Displays the report of the Car built by the user.
+    public String generateReport() {
+        return String.format("Car Make: %s %s, " +
+                "Color: %s",
+                make,
+                model,
+                color);
     }
-
-    // Getter method returns a String
-    public String getStudentNo() {
-        return studentNo;
-    }
-
-
-        }
+}
 
 
 
