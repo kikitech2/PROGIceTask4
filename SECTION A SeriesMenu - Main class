@@ -5,6 +5,7 @@ public class SeriesMenu {
         Series seriesApp = new Series();
         Scanner scanner = new Scanner(System.in);
 
+        // Menu Layout for the Series Application.
         while (true){
         System.out.println("LATEST SERIES- 2025");
         System.out.println("****************************************");
@@ -15,6 +16,7 @@ public class SeriesMenu {
             System.out.println("Exiting Application");
             return;
         }
+        //I used chatgpt to help solve an infinity loop in the menu layout.
         String menuChoice = scanner.nextLine();
             while (!menuChoice.equals("6")) {
                 System.out.println("Please select one of the following menu items:");
@@ -26,6 +28,7 @@ public class SeriesMenu {
                 System.out.println("(6) Exit Application.");
                 menuChoice = scanner.nextLine();
 
+                //This method saves and captures values to memory.
                 switch (menuChoice) {
                     case "1":
                         seriesApp.CaptureSeries();
@@ -52,3 +55,4 @@ public class SeriesMenu {
         }
     }
 }
+
