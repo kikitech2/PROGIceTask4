@@ -1,36 +1,109 @@
-
 import java.util.Scanner;
+import java.util.ArrayList;
 
-public class BakingApplication {
+// I designed a Java console that allows a user to tailor their own Car Model.
+public class CarTailor {
+
+    // This method performs an array list of relative cars based on the Brand, Model, Color and Car Type and have been declared as constants.
+    private static final String[] CAR_MAKES = {"Honda", "Ford", "Toyota"};
+    private static final String[] CAR_MODELS = {"Civic", "CR-V", "F-150"};
+    private static final String[] COLORS = {"Red", "Blue", "Black", "White", "Silver"};
+    private static final String[] CAR_TYPES = {"Sedan", "SUV", "Truck"};
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ArrayList<CarPreparation> builtCars = new ArrayList<>();
 
-        String[] ingredients = {"flour", "eggs", "butter", "oil", "sugar"};
-        double[] prices = {4.0, 6.0, 10.0, 17.0, 18.0};
+        // This method starts the process of designing the Car.
+        String continueBuilding;
+        do {
+            System.out.println("\n--- Build a New Car ---");
 
-        System.out.println("WELCOME TO DAVIDS BAKERY SHOP");
-        System.out.println("**********************************************");
+            // This method prompts the user to take advantage of the Customization options .
+            int makeChoice = getUserChoice(scanner, "Available Makes:", CAR_MAKES);
+            int typeChoice = getUserChoice(scanner, "\nAvailable Types:", CAR_TYPES);
+            int colorChoice = getUserChoice(scanner, "\nAvailable Colors:", COLORS);
 
-        System.out.print("Enter your arrival hour (0-23): ");
-        int hour = scanner.nextInt();
+            // This method fetches the model based on the users choice.
+            String selectedMake = CAR_MAKES[makeChoice - 1];
+            String selectedModel = CAR_MODELS[typeChoice - 1];
+            String selectedColor = COLORS[colorChoice - 1];
+            String selectedType = CAR_TYPES[typeChoice - 1];
 
-        System.out.print("Enter your arrival minute (0-59): ");
-        int minute = scanner.nextInt();
+            // The variables indicate the number of doors the user wants to build on their car and the boolean checks that the Car Type is eligible for the right amount of door space.
+            int numberOfDoors = 0;
+            boolean hasFourWheelDrive = false;
 
-        int time = hour * 100 + minute;
+            // This method provides each tailor case when the user decides on a specific Car Type. Maximum number of doors is 2 or 4.
+            switch (selectedType) {
+                case "Sedan":
+                    numberOfDoors = getNumericInput(scanner, "Enter number of doors (2 or 4): ");
+                    break;
+                case "SUV":
+                    // The user must select either yes or no if the car is designed to allocate space for 4 people or more.
+                    System.out.print("Does it have 4-wheel drive? (yes/no): ");
+                    String fourWheelDrive = scanner.nextLine().toLowerCase();
+                    hasFourWheelDrive = fourWheelDrive.equals("yes");
+                    break;
+                case "Truck":
+                    break;
+            }
+            // This method sets up the Car Preparation procedure.
+            builtCars.add(new CarPreparation(selectedMake, selectedModel, selectedColor, selectedType, numberOfDoors, hasFourWheelDrive));
+// The user must select either yes or no if they want to build another car.
+            System.out.print("Do you want to build another car? (yes/no): ");
+            continueBuilding = scanner.nextLine();
+        } while (continueBuilding.equalsIgnoreCase("yes"));
 
+        // This method displays the Car Report.
+        System.out.println("\n\n----------------------------");
+        System.out.println("    FINAL CAR BUILD REPORT");
+        System.out.println("----------------------------");
+
+        if (builtCars.isEmpty()) {
+            System.out.println("No cars were built.");
+        } else {
+            for (CarPreparation car : builtCars) {
+                System.out.println(car.generateReport());
+            }
+        }
+        System.out.println("----------------------------");
+    }
+//This method gets the user input from a user choice when selecting an appropriate car model design. I got assistance from chatgpt to help prevent an infinity loop.
+    private static int getUserChoice(Scanner scanner, String prompt, String[] options) {
+        int choice = -1;
+        while (choice < 1 || choice > options.length) {
+            System.out.println(prompt);
+            for (int i = 0; i < options.length; i++) {
+                System.out.println((i + 1) + ". " + options[i]);
+            }
+            System.out.print("Enter your choice (1-" + options.length + "): ");
+            try {
+                choice = scanner.nextInt();
+                if (choice < 1 || choice > options.length) {
+                    System.out.println("Invalid choice. Please enter a number between 1 and " + options.length + ".");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // Consume invalid input
+            }
+        }
         scanner.nextLine();
-
-        System.out.print("Enter your Student number: ");
-        String studentNo = scanner.nextLine();
-
-        ProcessRecipe recipe = new ProcessRecipe(ingredients, prices, time, studentNo);
-        recipe.printRecipeDetails();
-
-        System.out.println("**********************************************");
-        System.out.print("Enter an ingredient you want to find: ");
-        String ingredientToFind = scanner.nextLine();
-        recipe.findIngredient(ingredientToFind);
-        System.out.println("**********************************************");
+        return choice;
+    }
+    //This method gets the numeric value from the user input. I asked chatgpt to solve an error when the user inputs a value.
+    private static int getNumericInput(Scanner scanner, String prompt) {
+        int input = -1;
+        while (input < 0) {
+            System.out.print(prompt);
+            try {
+                input = scanner.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // Consume invalid input
+            }
+        }
+        scanner.nextLine();
+        return input;
     }
 }
