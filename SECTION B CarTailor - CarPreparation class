@@ -1,0 +1,30 @@
+public class CarPreparation extends Customization {
+
+    // Variables declared for the Car Preparation.
+    private String type;
+    private int numberOfDoors;
+    private boolean hasFourWheelDrive;
+
+    //Constructor for preparing the attributes of the Car from the Customization class. The user has previously selected the make of the car; the model; Car color, Car Type, door and capacity of the vehicle.
+    public CarPreparation(String make, String model, String color, String type, int numberOfDoors, boolean hasFourWheelDrive) {
+        super(make, model, color);
+        this.type = type;
+        this.numberOfDoors = numberOfDoors;
+        this.hasFourWheelDrive = hasFourWheelDrive;
+    }
+    //This method overrides the report for preparing the user's car.
+    @Override
+    public String generateReport() {
+        // Report is generated from the parent class.
+        String report = super.generateReport() + ", Type: " + type;
+
+        // All SUVs and Sedans are known for having a max of 4 doors each.
+        if ("Sedan".equalsIgnoreCase(type)) {
+            report += ", Doors: " + numberOfDoors;
+        } else if ("SUV".equalsIgnoreCase(type)) {
+            report += ", 4-Wheel Drive: " + (hasFourWheelDrive ? "Yes" : "No");
+        }
+        return report;
+    }
+}
+
